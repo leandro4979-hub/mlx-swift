@@ -1,0 +1,24 @@
+name: Fork Build Verification
+
+on:
+  push:
+    branches:
+      - build/verify
+
+permissions:
+  contents: read
+
+jobs:
+  linux-cmake:
+    runs-on: ubuntu-22.04
+    container:
+      image: swift:bookworm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Build and run Linux CPU examples
+        shell: bash
+        run: bash .github/scripts/setup+build-linux-container-cmake.sh
